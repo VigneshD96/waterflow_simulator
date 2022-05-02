@@ -25,7 +25,7 @@ function GridCreation(){
             col: colsInputRef.current.value,
             obsc: obstructionsInputRef.current.value
         }).toString();
-        navigate("/obsctruction-creation?" + queryString);
+        navigate("/simulator?" + queryString);
     }
 
     return(

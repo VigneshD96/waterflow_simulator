@@ -34,3 +34,51 @@ body {
 .form-ele input{
   padding: 5px;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #666;
+  width:25px;
+  height:25px;
+  padding: 8px;
+}
+
+td.obstruction{
+  background-color: #333 !important;
+}
+td.flowing{
+  background-color: rgb(15, 94, 204);
+}
+.flex{
+  display: flex;
+}
+.grid{
+  display: grid;
+  grid-gap: 10px;
+  width: 100%;
+}
+.grid-2-cols{
+  grid-template-columns: 1fr 1fr;
+}
+.grid-ele{
+  background-color: #666;
+  border: 1px solid #666;
+  height: 25px;
+  padding: 8px;
+  width: 25px;
+}
+.w100{
+  width: 100%;
+}
+.w75{
+  width: 75%;
+}
+.w50{
+  width: 50%;
+}
+.w25{
+  width: 25%;
+}
