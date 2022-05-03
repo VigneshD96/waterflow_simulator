@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route path="/waterflow_simulator/" element={<App />}>
           <Route index element={<GridCreationForm />} />
           <Route path={SIMULATOR} element={<SimulationContainer />} >
             <Route path={OBSTRUCTIONCREATION} element={<ObstructionCreation />} />
