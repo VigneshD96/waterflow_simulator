@@ -36,7 +36,7 @@ function GridCreation(){
     return(
         <div>
             <h3>
-                Grid Creation
+                Grid creation
             </h3>
             <div className="form">
                 <div className="form-ele">

@@ -64,10 +64,21 @@ function WaterflowSimulation(){
     }
     return(
         <div> 
-            {(inletPosition==null)?
-                (<div className="p15">Select water inlet, by clicking on any blue square and proceed </div>)
+            {(inletPosition==null)?(
+                <>
+                    <h3>
+                        Water inlet selection
+                    </h3>
+                    <div className="p15">Select water inlet, by clicking on any blue square and proceed </div>
+                </>)
                 :
-                (<div className="p15">Simulated water flow looks like</div>)
+                (
+                    <>
+                        <h3>
+                            Waterflow simulation
+                        </h3>
+                        <div className="p15">Simulated water flow looks like</div>
+                    </>)
             }
             <div className="p15">
                 {(inletPosition==null) && 

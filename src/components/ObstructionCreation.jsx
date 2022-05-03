@@ -41,7 +41,10 @@ function ObsctructionCreation(){
     }
     return(
         <div>
-            <div className="p15">Drag and drop the obstructions into the grid</div>
+            <h3>
+                Obstruction mapping
+            </h3>
+            <div className="p15">Drag and drop the obstructions (- blocks to you right) into the grid</div>
             <div className="flex p15">
                 <div className="w75 mr50"><WaterflowGrid/></div>
                 <div className="w25"><ObstructionGrid/></div>
