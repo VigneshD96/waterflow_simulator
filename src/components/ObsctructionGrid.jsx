@@ -18,7 +18,6 @@ function DragableSquare({obj, ind}){
         () => ({
           type: 'test',
           end:(item,monitor)=>{
-                // console.log(`onEnd from drag source`,ind,monitor.getDropResult());
                 let pos= monitor.getDropResult() && monitor.getDropResult().mapping;
                 if(pos){
                     updateObstructionMapping(ind,{isMapped:true,gridPosition:pos})
@@ -30,7 +29,7 @@ function DragableSquare({obj, ind}){
         }),
         []
     );
-    const backgroundColor=obj.isMapped? '#ddd': '#666';
+    const backgroundColor=obj.isMapped? '#ddd': '#333';
     return(
         <div ref={obj.isMapped? null : dragRef} style={{opacity, backgroundColor}} className="grid-ele"></div>
     )

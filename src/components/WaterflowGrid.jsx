@@ -8,7 +8,6 @@ function DropableSquare({arr, rowInd, colInd}){
         accept: "test",
         drop: ()=>{
             updateWaterflowGrid(rowInd,colInd,{isObstruction: true,isFlowing:false})
-            // console.log(`ondrop from drop target`,rowInd, colInd);
             return{mapping:[rowInd,colInd]}
         }
     }))

@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom";
 
+import {OBSTRUCTIONCREATION, SIMULATOR} from '../constants/Constants'
+
 //For centralized control over the input range.
 const MINRANGE=1, MAXRANGE=10, OBSTRUCTIONMINRANGE=1, OBSTRUCTIONMAXRANGE=10;
 //To get/show tickmarks for input:range, based on browser support
@@ -20,12 +22,15 @@ function GridCreation(){
     },[]);
 
     function sendToNextStep(e){
-        const queryString= new URLSearchParams({
-            row: rowsInputRef.current.value,
-            col: colsInputRef.current.value,
-            obsc: obstructionsInputRef.current.value
-        }).toString();
-        navigate("/simulator?" + queryString);
+        const row= Number(rowsInputRef.current.value);
+        const col= Number(colsInputRef.current.value);
+        const obsc= Number(obstructionsInputRef.current.value);
+        if(row*col <= obsc){
+            alert("Obstructions count must be lesser than the number of available grid boxes");
+            return
+        }
+        const queryString= new URLSearchParams({ row, col, obsc }).toString();
+        navigate(`/${SIMULATOR}/${OBSTRUCTIONCREATION}?` + queryString);
     }
 
     return(
@@ -50,7 +55,7 @@ function GridCreation(){
                     <datalist id="obstructions-list-tickmarks"> {getOptionsList(OBSTRUCTIONMINRANGE,OBSTRUCTIONMAXRANGE)} </datalist>
                 </div>
                 <div className="form-ele">
-                    <button onClick={sendToNextStep}>Next</button>
+                    <button className="p5" onClick={sendToNextStep}>Next</button>
                 </div>
             </div>
         </div>

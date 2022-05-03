@@ -1,30 +1,53 @@
-import { createContext, useCallback, useEffect, useState } from "react";
-import {produce} from "immer";
+import { createContext, useCallback, useState } from "react";
+import {produce} from 'immer';
+import { useLocation } from "react-router-dom";
+
 export const WaterflowContext= createContext();
 
+const getInitialWaterflowGridState=()=>{
+    const location= useLocation();
+    let queryParams= new URLSearchParams(location.search);
+        const row= queryParams.has('row') && Number(queryParams.get('row'));
+        const col= queryParams.has('col') && Number(queryParams.get('col'));
+        const obscMap= queryParams.has('obsc_m') && queryParams.get('obsc_m');
+    if(row && col && obscMap){
+        let obscMapArr=[]
+        obscMap.split("-").forEach(subStr => obscMapArr.push(subStr.split("_")) )
+        let tempState=[];
+        for(let i=0;i<row;i++){
+            if(!tempState[i]) tempState[i]=[];
+            for(let j=0;j<col;j++){
+                if(obscMapArr.findIndex( arr => (i==Number(arr[0]) && j==Number(arr[1]))) > -1){
+                    tempState[i][j]={isObstruction:true, isFlowing:false}
+                }else{
+                    tempState[i][j]={isObstruction:false, isFlowing:false}
+                }
+            }
+        }
+        return tempState;
+    }else{
+        return []
+    }
+}
+
 const WaterFlowProvider = ({children})=>{
-    const [waterflowGrid, setWaterflowGrid]=useState([]);
+    const [waterflowGrid, setWaterflowGrid]=useState(getInitialWaterflowGridState());
     const [obstructionMapping, setObstructionMapping]= useState([]);
     const constructWaterflowGrid=(row,col)=>{
         setWaterflowGrid(produce((draft)=>{
             for(let i=0;i<row; i++){
-                let tempColObj=[];
+                if(!draft[i]) draft[i]=[];
                 for(let j=0;j<col;j++){
-                    tempColObj.push({isObstruction:false, isFlowing:false})
+                    draft[i][j]={isObstruction:false, isFlowing:false}
                 }
-                draft.push(tempColObj);
             }
         }));
     }
 
-    useEffect(()=>{
-        console.log(waterflowGrid);
-    },[waterflowGrid]);
-
     const constructObstructionMapping=(len)=>{
         setObstructionMapping(produce((draft)=>{
             for(let i=0;i<len;i++){
-                draft.push({isMapped:false, gridPosition:[]});
+                draft[i]={isMapped:false, gridPosition:[]};
             }
         }))
     }
@@ -38,9 +61,22 @@ const WaterFlowProvider = ({children})=>{
             draft[ind]= newState;
         }));
     })
+    const resetWaterflowGridWithObstructions=useCallback(()=>{
+        setWaterflowGrid(produce((draft)=>{
+            draft.forEach((arr,i)=>{
+                arr.forEach((ele, j)=>{
+                    if(draft[i][j].isObstruction){ 
+                        draft[i][j]={isObstruction:true, isFlowing:false}
+                    }else{
+                        draft[i][j]={isObstruction:false, isFlowing:false}
+                    }
+                });
+            });
+        }));
+    })
     return(
         <WaterflowContext.Provider value={{
-                waterflowGrid, constructWaterflowGrid, updateWaterflowGrid,
+                waterflowGrid, constructWaterflowGrid, updateWaterflowGrid, resetWaterflowGridWithObstructions,
                 obstructionMapping, constructObstructionMapping, updateObstructionMapping
             }}>
             {children}

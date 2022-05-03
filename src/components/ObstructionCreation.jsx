@@ -1,15 +1,23 @@
-import { useContext, useEffect } from "react";
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import { useLocation } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 import { WaterflowContext } from "../context/WaterflowContext";
 import WaterflowGrid from "./WaterflowGrid";
 import ObstructionGrid from "./ObsctructionGrid";
 
+import {SIMULATOR, SIMULATIONOUTPUT} from '../constants/Constants'
+
+const customArrayFlatten= (arr)=>{
+    return arr.reduce((result, currentObj)=>{
+        return (currentObj.gridPosition && currentObj.gridPosition.length>0)? ((result.length>0)? `${currentObj.gridPosition.join("_")}-${result}` : currentObj.gridPosition.join("_")): result
+    },'')
+}
+
 function ObsctructionCreation(){
     const waterflowContext= useContext(WaterflowContext);
+    let [obscMap, setObscMap]= useState('');
     const location= useLocation();
+    const navigate= useNavigate();
     useEffect(()=>{
         let queryParams= new URLSearchParams(location.search);
         const row= queryParams.has('row') && Number(queryParams.get('row'));
@@ -18,14 +26,35 @@ function ObsctructionCreation(){
         waterflowContext.constructWaterflowGrid(row,col);
         waterflowContext.constructObstructionMapping(obsc);
     },[])
+    //monitor changes in `obstructionMapping` and re-evaluate `obscMap`
+    useEffect(()=>{
+        setObscMap(customArrayFlatten(waterflowContext.obstructionMapping));
+    },[waterflowContext.obstructionMapping]);
 
+    const getNewSearchString=()=>{
+        let searchParamsObj= new URLSearchParams(location.search.toString());
+        if(obscMap.length>0) searchParamsObj.append(`obsc_m`,obscMap);
+        return `?${searchParamsObj.toString()}`
+    }
+    const goToNextStep=()=>{
+        navigate(( `/${SIMULATOR}/${SIMULATIONOUTPUT}`+getNewSearchString() ))
+    }
     return(
-        <DndProvider backend={HTML5Backend}>
-            <div className="flex">
-                <div className="w75"><WaterflowGrid/></div>
+        <div>
+            <div className="p15">Drag and drop the obstructions into the grid</div>
+            <div className="flex p15">
+                <div className="w75 mr50"><WaterflowGrid/></div>
                 <div className="w25"><ObstructionGrid/></div>
             </div>
-        </DndProvider>
+            <div className="p15">
+                <Link to={'/'}>
+                    <button className="p5 mr50">Back</button>
+                </Link>
+                {/* <Link to={(obscMap.length>0)? getNextStepURL():null}> */}
+                    <button onClick={goToNextStep} disabled={obscMap.length>0? false:true} className="p5 mr50">Next step</button>
+                {/* </Link> */}
+            </div>
+        </div>
     )
 }
 export default ObsctructionCreation
