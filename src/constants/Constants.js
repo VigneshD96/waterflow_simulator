@@ -1,3 +1,4 @@
+export const BASE=`waterflow_simulator`
 export const SELECTWATERINLET=`select-water-inlet`
 export const SIMULATOR=`simulator`
 export const SIMULATIONOUTPUT='simulation-output'

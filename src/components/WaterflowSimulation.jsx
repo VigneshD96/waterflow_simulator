@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import {OBSTRUCTIONCREATION, SIMULATOR} from '../constants/Constants'
+import {BASE, OBSTRUCTIONCREATION, SIMULATOR} from '../constants/Constants'
 import { WaterflowContext } from '../context/WaterflowContext';
 import WaterflowGrid from './WaterflowGrid';
 
@@ -56,7 +56,7 @@ function WaterflowSimulation(){
     const goToPrevStep=()=>{
         const searchParamsObj= new URLSearchParams(location.search);
         searchParamsObj.delete('obsc_m');
-        navigate(`/${SIMULATOR}/${OBSTRUCTIONCREATION}?` + searchParamsObj.toString());
+        navigate(`/${BASE}/${SIMULATOR}/${OBSTRUCTIONCREATION}?` + searchParamsObj.toString());
     }
     const resetWaterFlowGrid=()=>{
         setInletPosition(old=> null);

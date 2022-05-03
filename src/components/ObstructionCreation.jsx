@@ -5,7 +5,7 @@ import { WaterflowContext } from "../context/WaterflowContext";
 import WaterflowGrid from "./WaterflowGrid";
 import ObstructionGrid from "./ObsctructionGrid";
 
-import {SIMULATOR, SIMULATIONOUTPUT} from '../constants/Constants'
+import { BASE, SIMULATOR, SIMULATIONOUTPUT} from '../constants/Constants'
 
 const customArrayFlatten= (arr)=>{
     return arr.reduce((result, currentObj)=>{
@@ -37,7 +37,7 @@ function ObsctructionCreation(){
         return `?${searchParamsObj.toString()}`
     }
     const goToNextStep=()=>{
-        navigate(( `/${SIMULATOR}/${SIMULATIONOUTPUT}`+getNewSearchString() ))
+        navigate(( `/${BASE}/${SIMULATOR}/${SIMULATIONOUTPUT}`+getNewSearchString() ))
     }
     return(
         <div>
@@ -50,7 +50,7 @@ function ObsctructionCreation(){
                 <div className="w25"><ObstructionGrid/></div>
             </div>
             <div className="p15">
-                <Link to={'/'}>
+                <Link to={`/${BASE}/`}>
                     <button className="p5 mr50">Back</button>
                 </Link>
                 {/* <Link to={(obscMap.length>0)? getNextStepURL():null}> */}
