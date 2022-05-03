@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom";
 
-import {BASE, OBSTRUCTIONCREATION, SIMULATOR} from '../constants/Constants'
+import { OBSTRUCTIONCREATION, SIMULATOR} from '../constants/Constants'
 
 //For centralized control over the input range.
 const MINRANGE=1, MAXRANGE=10, OBSTRUCTIONMINRANGE=1, OBSTRUCTIONMAXRANGE=10;
@@ -30,7 +30,7 @@ function GridCreation(){
             return
         }
         const queryString= new URLSearchParams({ row, col, obsc }).toString();
-        navigate(`/${BASE}/${SIMULATOR}/${OBSTRUCTIONCREATION}?` + queryString);
+        navigate(`/${SIMULATOR}/${OBSTRUCTIONCREATION}?` + queryString);
     }
 
     return(

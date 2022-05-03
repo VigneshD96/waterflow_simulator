@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {  BrowserRouter,
+import {  HashRouter as BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
 
-import { BASE, SIMULATOR, SIMULATIONOUTPUT, OBSTRUCTIONCREATION } from "./constants/Constants";
+import { SIMULATOR, SIMULATIONOUTPUT, OBSTRUCTIONCREATION } from "./constants/Constants";
 
 import App from './App'
 import GridCreationForm from './components/GridCreationForm';
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path={BASE} element={<App />}>
+        <Route path='/' element={<App />}>
           <Route index element={<GridCreationForm />} />
           <Route path={SIMULATOR} element={<SimulationContainer />} >
             <Route path={OBSTRUCTIONCREATION} element={<ObstructionCreation />} />
